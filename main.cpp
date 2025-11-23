@@ -29,7 +29,7 @@
 #define MATRIX_DENSITY 0.1 //10% of elements will be non-null
 #define MATRIX_SIZE 100 //Size of the squared matrix [final size: MATRIX_SIZE*MATRIX_SIZE]
 
-#define MULTIPLICATION_ITERATIONS 10000000 //Amout of times which an SpmV algorithm gets iterated (to calculate ns)
+#define MULTIPLICATION_ITERATIONS 1 //Amout of times which an SpmV algorithm gets iterated (to calculate ns)
 
 #define ALGORITHM_ITERATIONS 10 //Amout of times which the multiplication timing calculation is repeated 
 
@@ -274,12 +274,16 @@ int main(int argc, char** argv) {
 	cout << "Iterations " << target_iterations << endl;
 	
 	for (int takes=0; takes<ALGORITHM_ITERATIONS + 1; takes++){
-		cumulated_elapsed=0;
-		for (int t=0; t<target_iterations; t++){
+		if (target_iterations > 1) //On my local machine without more iterations the code won't show the time... on the cluster this problem didn't occur
+		{
+			cumulated_elapsed=0;
+			for (int t=0; t<target_iterations; t++){
+				MultiplyCSR(csr_format, randomVector, multiplication_result, time_elapsed);
+				cumulated_elapsed += time_elapsed;
+			}
+			time_elapsed = cumulated_elapsed / target_iterations;
+		}else
 			MultiplyCSR(csr_format, randomVector, multiplication_result, time_elapsed);
-			cumulated_elapsed += time_elapsed;
-		}
-		time_elapsed = cumulated_elapsed / target_iterations;
 		
 		if (takes==0) continue; //"hot up" the cache!
 		else times_vector[takes-1] = time_elapsed;
@@ -512,4 +516,3 @@ float SuperiorRandomFloat(float a, float b, bool limitDecimals) {
     return limitDecimals ? round(dist(rng) * 10.0f) / 10.0f : dist(rng);
 }
 //<
-
