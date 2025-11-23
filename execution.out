@@ -1,0 +1,19 @@
+Using 4 threads for the algorithm
+Matrix size: 24x24
+
+--- CSR Multiplication ---
+Iterations 416666
+Time elapsed: 4.551277e-03 milliseconds
+Time elapsed: 4.433876e-03 milliseconds
+Time elapsed: 3.939353e-03 milliseconds
+Time elapsed: 4.370029e-03 milliseconds
+Time elapsed: 4.342899e-03 milliseconds
+Time elapsed: 4.559765e-03 milliseconds
+Time elapsed: 4.474043e-03 milliseconds
+Time elapsed: 4.138434e-03 milliseconds
+Time elapsed: 4.340272e-03 milliseconds
+Time elapsed: 4.723921e-03 milliseconds
+
+Sorted CPU times [in nanoseconds]: 3939.35	4138.43	4340.27	4342.9	4370.03	4433.88	4474.04	4551.28	4559.77	4723.92	
+
+CSR 90/100 percentile: 0.00455977ms
