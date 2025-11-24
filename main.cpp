@@ -273,7 +273,10 @@ int main(int argc, char** argv) {
 	cout << "--- CSR Multiplication ---" << endl;
 	cout << "Iterations " << target_iterations << endl;
 	
-	for (int takes=0; takes<ALGORITHM_ITERATIONS + 1; takes++){
+	for (int hotUp=0; hotUp<5; hotUp++) //Hot up the cache
+		MultiplyCSR(csr_format, randomVector, multiplication_result, time_elapsed);
+	
+	for (int takes=0; takes<ALGORITHM_ITERATIONS; takes++){
 		if (target_iterations > 1) //On my local machine without more iterations the code won't show the time... on the cluster this problem didn't occur
 		{
 			cumulated_elapsed=0;
@@ -285,8 +288,7 @@ int main(int argc, char** argv) {
 		}else
 			MultiplyCSR(csr_format, randomVector, multiplication_result, time_elapsed);
 		
-		if (takes==0) continue; //"hot up" the cache!
-		else times_vector[takes-1] = time_elapsed;
+		times_vector[takes] = time_elapsed;
 		PrintMultiplicationAndTime(multiplication_result, time_elapsed, logMultiplicationResult);
 	}
 	std::sort(times_vector.begin(), times_vector.end()); 
