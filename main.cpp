@@ -364,11 +364,9 @@ void MultiplyCSR(const CSRFormat& csr_format, std::vector<float>& randomVector, 
 	#pragma omp parallel for
 	for (int row=0; row<size; row++){
 		int elementIndex = csr_format.Arow[row], nextIndex = csr_format.Arow[row+1];
-		float localResult = 0;
 		for (int i=elementIndex; i<nextIndex; i++){
-    		localResult += csr_format.Aval[i] * randomVector[row];
+    		result[row] += csr_format.Aval[i] * randomVector[row];
 		}
-		if (localResult != 0) result[row] = localResult;
 	}
 	
 	auto end = chrono::high_resolution_clock::now();
